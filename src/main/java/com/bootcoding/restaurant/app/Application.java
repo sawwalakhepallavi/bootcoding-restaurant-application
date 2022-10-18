@@ -1,5 +1,7 @@
 package com.bootcoding.restaurant.app;
 
+import com.bootcoding.restaurant.dao.CustomerDao;
+import com.bootcoding.restaurant.dao.DAOServies;
 import com.bootcoding.restaurant.model.Customer;
 import com.bootcoding.restaurant.model.Order;
 import com.bootcoding.restaurant.model.Vendor;
@@ -8,6 +10,10 @@ import java.util.Date;
 
 public class Application {
     public static void main(String[] args) {
+        CustomerDao cas=new CustomerDao();
+        cas.createTable();
+    }
+    public void testData(){
         Customer ramesh = new Customer();
         ramesh.setName("Ramesh");
         ramesh.setCity("Nagpur");
