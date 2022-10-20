@@ -4,13 +4,9 @@ import com.bootcoding.restaurant.model.Customer;
 
 import java.sql.*;
 
-public class CustomerDao {
-    private static final String TABLE_NAME = "app_customer";
+public class OrderMenuItemsDao {
+    private static final String TABLE_NAME = "app_orderMenuItems";
 
-    private DAOService daoService;
-    public CustomerDao(){
-        daoService = new DAOService();
-    }
     public void createCustomer(Customer customer){
 
         try{
@@ -41,19 +37,18 @@ public class CustomerDao {
 
 
         try{
+            Class.forName("org.postgresql.Driver");
 
-            Connection con = daoService.getConnection();
+            Connection con= DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres",
+                    "postgres","root");
             Statement stmt=con.createStatement();
             String query="Create table if not exists " + TABLE_NAME
                     + "( id bigint NOT NULL, "
-                    +"name text, "
-                    +"phone_number decimal, "
-                    +"address text, "
-                    +"emailid text, "
-                    +"city text, "
-                    +"state text, "
-                    +"created_at timestamp, "
-                    +"CONSTRAINT app_customer_pkey PRIMARY KEY (id))";
+                    +"menuItem text, "
+                    +"quantity int, "
+                    +"price decimal, "
+                    +"isVeg bigint,"
+                    +"CONSTRAINT app_orderMenuItems_pkey PRIMARY KEY (id))";
             System.out.println(query);
             stmt.executeUpdate(query);
 

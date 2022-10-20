@@ -4,20 +4,16 @@ import com.bootcoding.restaurant.model.Customer;
 
 import java.sql.*;
 
-public class CustomerDao {
-    private static final String TABLE_NAME = "app_customer";
+public class MenuItemDao {
+    private static final String TABLE_NAME = "app_menuItem";
 
-    private DAOService daoService;
-    public CustomerDao(){
-        daoService = new DAOService();
-    }
-    public void createCustomer(Customer customer){
+    public void createCustomer(Customer customer) {
 
-        try{
+        try {
             Class.forName("org.postgresql.Driver");
 
-            Connection con= DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres",
-                    "postgres","root");
+            Connection con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres",
+                    "postgres", "root");
 
             PreparedStatement stmt = con.prepareStatement("insert into " + TABLE_NAME
                     + " VALUES (?,?,?,?,?,?,?,?)");
@@ -33,32 +29,33 @@ public class CustomerDao {
             stmt.executeUpdate();
 
             con.close();
-        }catch(Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
-    public void createTable(){
+
+    public void createTable() {
 
 
-        try{
+        try {
+            Class.forName("org.postgresql.Driver");
 
-            Connection con = daoService.getConnection();
-            Statement stmt=con.createStatement();
-            String query="Create table if not exists " + TABLE_NAME
+            Connection con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres",
+                    "postgres", "root");
+            Statement stmt = con.createStatement();
+            String query = "Create table if not exists " + TABLE_NAME
                     + "( id bigint NOT NULL, "
-                    +"name text, "
-                    +"phone_number decimal, "
-                    +"address text, "
-                    +"emailid text, "
-                    +"city text, "
-                    +"state text, "
-                    +"created_at timestamp, "
-                    +"CONSTRAINT app_customer_pkey PRIMARY KEY (id))";
+                    + "menuItemId bigint, "
+                    + "menuItem text, "
+                    + "price decimal, "
+                    + "category text, "
+                    + "isVeg bigint, "
+                    + "CONSTRAINT app_menuItem_pkey PRIMARY KEY (id))";
             System.out.println(query);
             stmt.executeUpdate(query);
 
 
-        }catch(Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
