@@ -7,10 +7,39 @@ import java.sql.*;
 
 public class VendorDao {
     private static final String TABLE_NAME = "app_vendor";
+    private DAOService daoService;
+    public VendorDao(){
+        daoService = new DAOService();
+    }
+    public void insertVendorDao(Vendor vendor) {
 
+        try {
+            Connection con = daoService.getConnection();
+            if (!daoService.exists(con, TABLE_NAME, vendor.getVendorId())) {
+                String sql = "INSERT INTO " + TABLE_NAME + " VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                PreparedStatement ps = con.prepareStatement(sql);
+                ps.setLong(1, vendor.getVendorId());
+                ps.setString(2, vendor.getName());
+                ps.setLong(3, vendor.getPhoneNumber());
+                ps.setString(4, vendor.getAddress());
+                ps.setString(5, vendor.getEmailId());
+                ps.setString(6, vendor.getCity());
+                ps.setString(7, vendor.getState());
+                ps.setBoolean(8, vendor.isPureVeg());
+                ps.setString(9, vendor.getCategory());
+                ps.setDouble(10, vendor.getRating());
+                ps.executeUpdate();
+                System.out.println(vendor.getVendorId() + " inserted into DB!");
+            } else {
+                System.out.println(vendor.getVendorId() + " already exists!");
+            }
+            con.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
 
     public void createTable(){
-
 
         try{
             Class.forName("org.postgresql.Driver");
@@ -23,12 +52,11 @@ public class VendorDao {
                     +"name text, "
                     +"phone_number decimal, "
                     +"address text, "
-                    +"emailid text, "
+                    +"emailId text, "
                     +"city text, "
                     +"state text, "
-                    +"created_at timestamp, "
-                    +"pureveg bool,"
-                    +"catagary text,"
+                    +"pureVeg bool,"
+                    +"category text,"
                     +"rating bigint,"
                     +"CONSTRAINT app_vendor_pkey PRIMARY KEY (id))";
             System.out.println(query);

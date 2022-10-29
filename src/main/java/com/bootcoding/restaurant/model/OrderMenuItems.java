@@ -1,6 +1,8 @@
 package com.bootcoding.restaurant.model;
 
 public class OrderMenuItems {
+    private long menuItemId;
+    private long orderId;
     private String menuItem;
     private int quantity;
     private double price;
@@ -36,5 +38,21 @@ public class OrderMenuItems {
 
     public void setVeg(boolean veg) {
         isVeg = veg;
+    }
+
+    public long getMenuItemId() {
+        return menuItemId;
+    }
+
+    public void setMenuItemId(long menuItemId) {
+        this.menuItemId = menuItemId;
+    }
+
+    public long getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(long orderId) {
+        this.orderId = orderId;
     }
 }

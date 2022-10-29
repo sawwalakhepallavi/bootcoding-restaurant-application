@@ -5,21 +5,22 @@ import com.bootcoding.restaurant.model.Customer;
 import com.bootcoding.restaurant.model.MenuItem;
 import com.bootcoding.restaurant.model.Order;
 import com.bootcoding.restaurant.model.Vendor;
+import com.bootcoding.restaurant.service.CustomerService;
+import com.bootcoding.restaurant.service.VendorMenuItemService;
+import com.bootcoding.restaurant.service.VendorService;
 
 import java.util.Date;
 
 public class Application {
     public static void main(String[] args) {
-        CustomerDao cas=new CustomerDao();
-        cas.createTable();
-        VendorDao ven=new VendorDao();
-        ven.createTable();
-        OrderDao ord=new OrderDao();
-        ord.createTable();
-        MenuItemDao me=new MenuItemDao();
-        me.createTable();
-        OrderMenuItemsDao omd=new OrderMenuItemsDao();
-        omd.createTable();
+        CustomerService cus=new CustomerService();
+        cus.createTable();
+        cus.createDummyCustomers();
+        VendorService vs=new VendorService();
+        vs.createTable();
+        vs.createVendors();
+        VendorMenuItemService vms=new VendorMenuItemService();
+        vms.createTable();
     }
     public void testData(){
         Customer ramesh = new Customer();

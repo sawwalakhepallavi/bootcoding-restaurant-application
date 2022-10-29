@@ -1,37 +1,40 @@
 package com.bootcoding.restaurant.dao;
 
 import com.bootcoding.restaurant.model.Customer;
+import com.bootcoding.restaurant.model.Order;
 
 import java.sql.*;
 
 public class OrderDao {
     private static final String TABLE_NAME = "app_order";
+    private DAOService daoService;
+    public OrderDao(){
+        daoService = new DAOService();
+    }
+    public void insertOrderDao(Order order) {
 
-    public void createCustomer(Customer customer){
-
-        try{
-            Class.forName("org.postgresql.Driver");
-
-            Connection con= DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres",
-                    "postgres","postgres");
-
-            PreparedStatement stmt = con.prepareStatement("insert into " + TABLE_NAME
-                    + " VALUES (?,?,?,?,?,?,?,?)");
-            stmt.setLong(1, customer.getCustomerId());
-            stmt.setString(2, customer.getName());
-            stmt.setLong(3, customer.getPhonenumber());
-            stmt.setString(4, customer.getAddress());
-            stmt.setString(5, customer.getEmailId());
-            stmt.setString(6, customer.getCity());
-            stmt.setString(7, customer.getState());
-            stmt.setTimestamp(8, new Timestamp(customer.getCreatedAt().getTime()));
-
-            stmt.executeUpdate();
-
+        try {
+            Connection con = daoService.getConnection();
+            if (!daoService.exists(con, TABLE_NAME, order.getOrderId())) {
+                String sql = "INSERT INTO " + TABLE_NAME + " VALUES ( ?, ?, ?, ?, ?, ?, ?)";
+                PreparedStatement ps = con.prepareStatement(sql);
+                ps.setLong(1, order.getOrderId());
+                ps.setDouble(2, order.getTotalAmount());
+                ps.setLong(3, order.getVendor().getVendorId());
+                ps.setLong(4, order.getCustomer().getCustomerId());
+                ps.setString(5, order.getDeliveryAddress());
+                ps.setTimestamp(6, new Timestamp (order.getOrderDate().getTime()));
+                ps.setString(7, order.getOrderStatus());
+                ps.executeUpdate();
+                System.out.println(order.getOrderId() + " inserted into DB!");
+            } else {
+                System.out.println(order.getOrderId() + " already exists!");
+            }
             con.close();
-        }catch(Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
+
     }
     public void createTable(){
 

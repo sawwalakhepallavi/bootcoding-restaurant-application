@@ -6,6 +6,15 @@ public class MenuItem {
     private double price;
     private String category;
     private boolean isVeg;
+    private  long vendorId;
+
+    public long getVendorId() {
+        return vendorId;
+    }
+
+    public void setVendorId(long vendorId) {
+        this.vendorId = vendorId;
+    }
 
     public long getMenuItemId() {
         return menuItemId;
